@@ -1,0 +1,5 @@
+# This file is for backwards compatibility
+# Use: pip install -e . (installs from pyproject.toml)
+# Or for development: pip install -e ".[dev]"
+
+-e .

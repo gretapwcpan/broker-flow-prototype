@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broker Flow Analytics - Connection Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>🏦 Broker Flow Analytics - Connection Test</h1>
+    
+    <div class="info">
+        <h3>Testing API Connection</h3>
+        <p>This page tests the connection between frontend and backend servers.</p>
+    </div>
+
+    <button onclick="testConnection()">Test API Connection</button>
+    <button onclick="loadDashboard()">Load Analytics Dashboard</button>
+    
+    <div id="status"></div>
+    <div id="results"></div>
+
+    <script>
+        const API_BASE_URL = 'http://127.0.0.1:8000';
+        
+        async function testConnection() {
+            const statusDiv = document.getElementById('status');
+            const resultsDiv = document.getElementById('results');
+            
+            statusDiv.innerHTML = '<div class="info">Testing connection...</div>';
+            
+            try {
+                // Test health endpoint
+                const healthResponse = await fetch(`${API_BASE_URL}/health`);
+                const healthData = await healthResponse.json();
+                
+                // Test insights endpoint
+                const insightsResponse = await fetch(`${API_BASE_URL}/api/insights`);
+                const insightsData = await insightsResponse.json();
+                
+                statusDiv.innerHTML = '<div class="success">✅ Connection successful!</div>';
+                resultsDiv.innerHTML = `
+                    <h3>API Response Preview:</h3>
+                    <pre>${JSON.stringify({
+                        health: healthData,
+                        insights_summary: {
+                            status: insightsData.status,
+                            total_documents: insightsData.total_documents,
+                            borrower_count: insightsData.borrower_insights?.total_borrowers,
+                            avg_income: insightsData.borrower_insights?.income_analysis?.average_income,
+                            avg_credit_score: insightsData.borrower_insights?.credit_score_analysis?.average_score,
+                            avg_property_value: insightsData.property_insights?.market_overview?.average_property_value,
+                            risk_level: insightsData.portfolio_insights?.risk_assessment?.overall_risk_level
+                        }
+                    }, null, 2)}</pre>
+                `;
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="error">❌ Connection failed: ${error.message}</div>`;
+                resultsDiv.innerHTML = `
+                    <h3>Troubleshooting:</h3>
+                    <ul>
+                        <li>Make sure backend server is running: <code>python backend/main.py</code></li>
+                        <li>Check if port 8000 is accessible: <a href="${API_BASE_URL}/health" target="_blank">${API_BASE_URL}/health</a></li>
+                        <li>Try different API URLs:
+                            <ul>
+                                <li><a href="http://localhost:8000/health" target="_blank">http://localhost:8000/health</a></li>
+                                <li><a href="http://0.0.0.0:8000/health" target="_blank">http://0.0.0.0:8000/health</a></li>
+                            </ul>
+                        </li>
+                        <li>Check browser console for CORS errors</li>
+                    </ul>
+                `;
+            }
+        }
+        
+        function loadDashboard() {
+            window.open('http://localhost:3001', '_blank');
+        }
+        
+        // Auto-test on page load
+        window.onload = () => {
+            setTimeout(testConnection, 1000);
+        };
+    </script>
+</body>
+</html>
