@@ -5,6 +5,7 @@ import BorrowerInsights from './BorrowerInsights';
 import PropertyInsights from './PropertyInsights';
 import PortfolioInsights from './PortfolioInsights';
 import DocumentsSummary from './DocumentsSummary';
+import ConversionAnalytics from './ConversionAnalytics';
 
 interface DashboardProps {
   insights: InsightsData;
@@ -25,6 +26,9 @@ const Dashboard: React.FC<DashboardProps> = ({ insights }) => {
         summary={insights.summary}
         totalDocuments={insights.total_documents}
       />
+
+      {/* Conversion Funnel Analytics */}
+      <ConversionAnalytics />
 
       {/* Main Analytics Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

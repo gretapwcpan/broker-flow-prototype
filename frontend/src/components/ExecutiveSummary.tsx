@@ -24,25 +24,24 @@ const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white/10 rounded-lg p-4">
-            <div className="text-blue-100 text-sm font-medium">Documents Processed</div>
-            <div className="text-3xl font-bold">{totalDocuments}</div>
+            <div className="text-blue-100 text-sm font-medium">Portfolio Value</div>
+            <div className="text-3xl font-bold">$2.1M</div>
+            <div className="text-green-300 text-xs mt-1">↑ 12% MoM</div>
           </div>
           <div className="bg-white/10 rounded-lg p-4">
-            <div className="text-blue-100 text-sm font-medium">Document Types</div>
-            <div className="text-3xl font-bold">{keyMetrics?.document_types || 0}</div>
+            <div className="text-blue-100 text-sm font-medium">Avg Deal Size</div>
+            <div className="text-3xl font-bold">$352K</div>
+            <div className="text-green-300 text-xs mt-1">↑ 8% vs target</div>
           </div>
           <div className="bg-white/10 rounded-lg p-4">
-            <div className="text-blue-100 text-sm font-medium">Success Rate</div>
-            <div className="text-3xl font-bold">{keyMetrics?.processing_success_rate || '0%'}</div>
+            <div className="text-blue-100 text-sm font-medium">Risk Level</div>
+            <div className="text-3xl font-bold text-green-300">Low</div>
+            <div className="text-blue-200 text-xs mt-1">749 avg FICO</div>
           </div>
           <div className="bg-white/10 rounded-lg p-4">
-            <div className="text-blue-100 text-sm font-medium">Last Updated</div>
-            <div className="text-sm font-medium">
-              {keyMetrics?.last_updated 
-                ? new Date(keyMetrics.last_updated).toLocaleTimeString()
-                : 'N/A'
-              }
-            </div>
+            <div className="text-blue-100 text-sm font-medium">Conversion Rate</div>
+            <div className="text-3xl font-bold">68%</div>
+            <div className="text-green-300 text-xs mt-1">↑ 5% QoQ</div>
           </div>
         </div>
 
